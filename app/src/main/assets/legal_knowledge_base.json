@@ -1,0 +1,270 @@
+[
+  {
+    "id": 1,
+    "title": "Employee Rights",
+    "category": "Employee Rights",
+    "keywords": ["employee rights", "workplace rights", "labour rights"],
+    "summary": "Employees are entitled to fair wages, safe working conditions, non-discrimination, and lawful termination procedures. These rights are protected under constitutional and labour laws.",
+    "next_steps": [
+      "Keep employment records, appointment letters, and salary slips.",
+      "Raise the issue with the employer or HR department first.",
+      "Approach the Labour Department or Labour Court if the grievance is not resolved."
+    ],
+    "official_authority": "Labour Department / Labour Court",
+    "official_source": "Constitution of India and labour statutes",
+    "official_source_url": "https://labour.gov.in/"
+  },
+  {
+    "id": 2,
+    "title": "Salary Payment Rules",
+    "category": "Employee Rights",
+    "keywords": ["salary", "wages", "payment rules", "unpaid wages", "deductions"],
+    "summary": "Employers must pay wages on time and cannot make unauthorized deductions. Delayed or unpaid wages can be challenged before the appropriate labour authority.",
+    "next_steps": [
+      "Gather salary slips, bank statements, and appointment documents.",
+      "Request a written explanation from the employer.",
+      "File a complaint with the Labour Department if wages remain unpaid."
+    ],
+    "official_authority": "Assistant Labour Commissioner / Labour Court",
+    "official_source": "Payment of Wages Act, 1936",
+    "official_source_url": "https://www.indiacode.nic.in/"
+  },
+  {
+    "id": 3,
+    "title": "Complaint Procedure for Employment Grievances",
+    "category": "Employee Rights",
+    "keywords": ["complaint procedure", "labour complaint", "employment grievance"],
+    "summary": "Workers can file complaints for unpaid wages, wrongful termination, unsafe conditions, or unlawful deductions through labour authorities and courts.",
+    "next_steps": [
+      "Maintain all supporting documents and written communications.",
+      "File the complaint at the appropriate Labour Office or labour court.",
+      "Seek legal aid if the matter is complex or the employer is unresponsive."
+    ],
+    "official_authority": "Labour Commissioner / Labour Court",
+    "official_source": "Industrial Disputes Act, 1947",
+    "official_source_url": "https://www.indiacode.nic.in/"
+  },
+  {
+    "id": 4,
+    "title": "Right to Equality",
+    "category": "Citizen Rights",
+    "keywords": ["equality", "discrimination", "fundamental rights"],
+    "summary": "Every citizen is equal before the law. No person can be discriminated against based on religion, race, caste, sex, or place of birth.",
+    "next_steps": [
+      "Report discrimination to the appropriate authority.",
+      "Seek legal assistance if your rights are violated."
+    ],
+    "official_authority": "Police / Courts / Human Rights Bodies",
+    "official_source": "Constitution of India",
+    "official_source_url": "https://www.indiacode.nic.in/"
+  },
+  {
+    "id": 5,
+    "title": "Right to Education",
+    "category": "Citizen Rights",
+    "keywords": ["education", "school", "right to education", "rte"],
+    "summary": "Children between the ages of 6 and 14 have the right to free and compulsory education under the Constitution and the Right of Children to Free and Compulsory Education Act, 2009.",
+    "next_steps": [
+      "Contact the local school or education department.",
+      "File a complaint if admission or education rights are denied.",
+      "Approach the District Education Officer if the issue is not resolved."
+    ],
+    "official_authority": "State Education Department / School Authorities",
+    "official_source": "Right of Children to Free and Compulsory Education Act, 2009",
+    "official_source_url": "https://www.indiacode.nic.in/"
+  },
+  {
+    "id": 6,
+    "title": "Right to Information (RTI)",
+    "category": "Citizen Rights",
+    "keywords": ["RTI", "information", "public records", "government transparency"],
+    "summary": "Citizens have the right to seek information from public authorities, except where the law exempts disclosure on grounds of privacy, security, or public interest.",
+    "next_steps": [
+      "Submit an RTI application to the relevant public authority.",
+      "Mention the specific information sought clearly.",
+      "Appeal to the appropriate appellate authority if the request is denied."
+    ],
+    "official_authority": "Public Information Officer / Information Commission",
+    "official_source": "Right to Information Act, 2005",
+    "official_source_url": "https://rti.gov.in/"
+  },
+  {
+    "id": 7,
+    "title": "Free Legal Aid",
+    "category": "Citizen Rights",
+    "keywords": ["legal aid", "lawyer", "free assistance", "nalsa", "pro bono"],
+    "summary": "Persons who are poor, marginalized, or otherwise unable to afford legal representation may receive free legal aid through legal services authorities.",
+    "next_steps": [
+      "Contact the nearest Legal Services Authority.",
+      "Provide identity proof and basic case details.",
+      "Request legal assistance for court matters or pre-litigation advice."
+    ],
+    "official_authority": "NALSA / State Legal Services Authority / District Legal Services Authority",
+    "official_source": "Legal Services Authorities Act, 1987",
+    "official_source_url": "https://nalsa.gov.in/"
+  },
+  {
+    "id": 8,
+    "title": "Consumer Rights",
+    "category": "Consumer Rights",
+    "keywords": ["consumer", "refund", "defective product", "unfair trade"],
+    "summary": "Consumers can seek remedies for defective goods, deficient services, unfair trade practices, or misleading advertisements. The law provides for refunds, replacement, repair, or compensation.",
+    "next_steps": [
+      "Keep bills, warranty cards, and communication records.",
+      "Contact the seller or service provider first.",
+      "File a complaint with the appropriate consumer forum if the issue remains unresolved."
+    ],
+    "official_authority": "Consumer Commission / Consumer Helpline",
+    "official_source": "Consumer Protection Act, 2019",
+    "official_source_url": "https://consumeraffairs.nic.in/"
+  },
+  {
+    "id": 9,
+    "title": "Right to File an FIR",
+    "category": "Citizen Rights",
+    "keywords": ["FIR", "police complaint", "criminal complaint", "cognizable"],
+    "summary": "Any person who has knowledge of a cognizable offence may approach the police to file an FIR. The police must register the complaint and investigate the matter.",
+    "next_steps": [
+      "Go to the nearest police station or use the emergency helpline.",
+      "Provide all relevant facts and supporting evidence.",
+      "Follow up with the investigating officer if the matter is not acted upon."
+    ],
+    "official_authority": "Police Station / Superintendent of Police",
+    "official_source": "Code of Criminal Procedure / BNSS",
+    "official_source_url": "https://www.indiacode.nic.in/"
+  },
+  {
+    "id": 10,
+    "title": "Women's Rights",
+    "category": "Women's Rights",
+    "keywords": ["women", "gender equality", "domestic violence", "harassment"],
+    "summary": "Women have the right to dignity, equal protection, safety, and freedom from gender-based violence. Special laws also protect them against workplace harassment (POSH) and domestic abuse.",
+    "next_steps": [
+      "Seek immediate help from local authorities or a shelter if you are in danger.",
+      "Document evidence of abuse or harassment.",
+      "Approach the police, women’s commission, or legal aid services."
+    ],
+    "official_authority": "Police / Women’s Commission / Courts",
+    "official_source": "Constitution of India, POSH Act, Domestic Violence Act",
+    "official_source_url": "https://www.indiacode.nic.in/"
+  },
+  {
+    "id": 11,
+    "title": "Senior Citizen Rights",
+    "category": "Citizen Rights",
+    "keywords": ["senior citizens", "elderly", "maintenance", "neglect"],
+    "summary": "Senior citizens are entitled to financial and social protection, including maintenance support from children/heirs and protection from neglect or abuse.",
+    "next_steps": [
+      "Report neglect or abuse to the local Maintenance Tribunal or Social Welfare officer.",
+      "Keep documents proving maintenance, kinship, or property rights.",
+      "Seek help from the legal services authority if needed."
+    ],
+    "official_authority": "Maintenance Tribunal / Courts / Social Welfare Department",
+    "official_source": "Maintenance and Welfare of Parents and Senior Citizens Act, 2007",
+    "official_source_url": "https://www.indiacode.nic.in/"
+  },
+  {
+    "id": 12,
+    "title": "Child Rights & Safety",
+    "category": "Citizen Rights",
+    "keywords": ["child", "children", "minor rights", "child abuse", "pocso"],
+    "summary": "Children have rights to protection, education, healthcare, and a safe environment. Their welfare is protected by constitutional, child-labour, and child-protection laws like POCSO.",
+    "next_steps": [
+      "Report abuse, neglect, or exploitation to child protection authorities.",
+      "Contact the local Child Welfare Committee (CWC) or police.",
+      "Seek legal aid if the child’s rights are violated."
+    ],
+    "official_authority": "Child Welfare Committee / Police / Juvenile Courts",
+    "official_source": "Constitution of India, Child Labour Act, POCSO Act 2012",
+    "official_source_url": "https://www.indiacode.nic.in/"
+  },
+  {
+    "id": 13,
+    "title": "Rights of Persons with Disabilities (Divyangjan)",
+    "category": "Citizen Rights",
+    "keywords": ["disability", "PWD", "accessibility", "equal opportunity"],
+    "summary": "Persons with disabilities are entitled to equal opportunity, accessibility, non-discrimination, and support services under the law.",
+    "next_steps": [
+      "File a complaint if accessibility or equal opportunity is denied.",
+      "Approach the Disability Commissioner or relevant local authority.",
+      "Seek legal aid or assistance from support organizations."
+    ],
+    "official_authority": "Disability Commissioner / Courts",
+    "official_source": "Rights of Persons with Disabilities Act, 2016",
+    "official_source_url": "https://www.indiacode.nic.in/"
+  },
+  {
+    "id": 14,
+    "title": "Refund Rules for Defective Goods",
+    "category": "Consumer Rights",
+    "keywords": ["refund", "return", "defective product", "deficient service"],
+    "summary": "Consumers can seek a refund, replacement, repair, or compensation if a product is defective, not as described, or a service is deficient.",
+    "next_steps": [
+      "Keep the bill, warranty card, and product details safe.",
+      "Contact the seller or service provider first in writing.",
+      "File a formal complaint through the Consumer Commission or online grievance portal if they refuse to remedy."
+    ],
+    "official_authority": "National Consumer Helpline / Consumer Disputes Redressal Commission",
+    "official_source": "Consumer Protection Act, 2019",
+    "official_source_url": "https://consumeraffairs.nic.in/"
+  },
+  {
+    "id": 15,
+    "title": "Consumer Helpline 1915",
+    "category": "Consumer Rights",
+    "keywords": ["1915", "consumer helpline", "complaint helpline", "consumer support"],
+    "summary": "The national consumer helpline number 1915 is a government-supported channel for consumer grievances, complaints, and guidance. It connects consumers to relevant authorities.",
+    "next_steps": [
+      "Call 1915 for initial guidance on your complaint.",
+      "Provide product/service details, purchase information, and issue description.",
+      "Keep the complaint reference number safe for future follow-up."
+    ],
+    "official_authority": "National Consumer Helpline",
+    "official_source": "Ministry of Consumer Affairs, Government of India",
+    "official_source_url": "https://consumerhelpline.gov.in/"
+  },
+  {
+    "id": 16,
+    "title": "Cybercrime - Online Fraud & UPI Scams",
+    "category": "Cybercrime",
+    "keywords": ["cybercrime", "online fraud", "upi fraud", "phishing", "scam"],
+    "summary": "Fraudulent digital transactions, phishing attacks, SIM swap fraud, or fake payment confirmations are serious criminal offences punishable under BNS 2023.",
+    "next_steps": [
+      "Block your credit cards or bank accounts immediately.",
+      "Report the transaction details to your bank within 24-72 hours to invoke zero-liability.",
+      "File a complaint at the national cybercrime portal (cybercrime.gov.in) or call the Cyber Helpline 1930."
+    ],
+    "official_authority": "National Cybercrime Cell / Cyber Police Station",
+    "official_source": "Bharatiya Nyaya Sanhita (BNS) 2023 - Sections 318 & 319",
+    "official_source_url": "https://cybercrime.gov.in/"
+  },
+  {
+    "id": 17,
+    "title": "Workplace Sexual Harassment (POSH)",
+    "category": "Women's Rights",
+    "keywords": ["sexual harassment", "workplace harassment", "posh", "safe environment"],
+    "summary": "Every woman has the right to a safe working environment free from sexual harassment. Employers must form an Internal Committee (IC) to address such complaints.",
+    "next_steps": [
+      "Submit a written complaint to the Internal Committee (IC) or Local Committee (LC) within 3 months of the incident.",
+      "Request conciliation or immediate interim relief like transfer or paid leave for up to 3 months.",
+      "If the employer fails to act, report to the District Officer or file a police report."
+    ],
+    "official_authority": "Internal Committee (IC) / Local Committee (LC) / Police",
+    "official_source": "Sexual Harassment of Women at Workplace (POSH) Act, 2013",
+    "official_source_url": "https://www.indiacode.nic.in/"
+  },
+  {
+    "id": 18,
+    "title": "Traffic Laws - Motor Vehicles Act",
+    "category": "Traffic Rules",
+    "keywords": ["driving licence", "rto", "drunk driving", "traffic police", "fine"],
+    "summary": "Governs the licensing of drivers, registration of motor vehicles, traffic regulation, third-party insurance, and penalties for violations like drunk driving (minimum 6 months disqualification).",
+    "next_steps": [
+      "Always carry valid digital/physical copies of your driving licence, registration (RC), pollution certificate (PUC), and insurance.",
+      "Under Section 185, drunk driving leads to immediate vehicle impounding and court fines/disqualification."
+    ],
+    "official_authority": "Traffic Police / Regional Transport Authority (RTO)",
+    "official_source": "Motor Vehicles Act, 1988 & subsequent amendments",
+    "official_source_url": "https://www.indiacode.nic.in/"
+  }
+]

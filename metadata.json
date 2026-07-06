@@ -1,0 +1,8 @@
+{
+  "name": "Remix: NyayaAI",
+  "description": "AI-powered Legal Assistance and Emergency Navigation Platform for Indian Citizens",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
