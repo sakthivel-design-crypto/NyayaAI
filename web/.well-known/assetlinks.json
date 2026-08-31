@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.aistudio.nyayaai.jpxvts",
+      "sha256_cert_fingerprints": [
+        "EB:62:3C:EA:0B:A1:62:30:BB:80:FF:38:6B:D3:46:E6:B2:39:59:3F:A4:46:12:96:96:C8:01:81:88:BA:E4:10"
+      ]
+    }
+  }
+]
