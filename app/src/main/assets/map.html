@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>NyayaAI Emergency Map</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: #121318;
+            color: #e3e2e6;
+            overflow: hidden;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Category Filter Buttons overlay */
+        .filter-container {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            z-index: 1000;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 4px 0;
+            scrollbar-width: none; /* Firefox */
+        }
+        .filter-container::-webkit-scrollbar {
+            display: none; /* Safari & Chrome */
+        }
+        
+        .filter-chip {
+            background-color: rgba(30, 31, 38, 0.9);
+            color: #c7c6ca;
+            border: 1px solid rgba(142, 142, 147, 0.3);
+            border-radius: 16px;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-chip.active {
+            background-color: #3f51b5;
+            color: #ffffff;
+            border-color: #5c6bc0;
+        }
+
+        /* Search input overlay */
+        .search-container {
+            position: absolute;
+            bottom: 90px;
+            left: 12px;
+            right: 12px;
+            z-index: 1000;
+            display: flex;
+            background-color: rgba(30, 31, 38, 0.95);
+            border-radius: 24px;
+            border: 1px solid rgba(142, 142, 147, 0.3);
+            padding: 4px 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            align-items: center;
+        }
+        
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            padding: 8px 12px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .search-button {
+            background-color: #3f51b5;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        /* Routing Info Panel */
+        .route-info-panel {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            z-index: 1000;
+            background-color: rgba(30, 31, 38, 0.95);
+            border-radius: 16px;
+            border: 1px solid rgba(142, 142, 147, 0.3);
+            padding: 12px 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+            display: none; /* shown dynamically */
+            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .route-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        
+        .route-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #3f51b5;
+            margin: 0;
+        }
+        
+        .close-route {
+            background: none;
+            border: none;
+            color: #8e8e93;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .route-details {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .route-metric {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .route-val {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        .route-lbl {
+            font-size: 11px;
+            color: #8e8e93;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Custom marker colors */
+        .custom-div-icon {
+            background: none;
+            border: none;
+        }
+        
+        .marker-pin {
+            width: 32px;
+            height: 32px;
+            border-radius: 50% 50% 50% 0;
+            position: absolute;
+            transform: rotate(-45deg);
+            left: 50%;
+            top: 50%;
+            margin: -16px 0 0 -16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: -1px 2px 4px rgba(0,0,0,0.4);
+        }
+        
+        .marker-pin::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(30, 31, 38, 0.9);
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .marker-icon {
+            position: absolute;
+            z-index: 10;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        
+        /* Dark Theme Map Styling override */
+        .leaflet-container {
+            background: #111216 !important;
+        }
+        
+        .leaflet-bar {
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5) !important;
+        }
+        
+        .leaflet-bar a {
+            background-color: #1e1f26 !important;
+            color: #ffffff !important;
+            border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+        }
+        
+        .leaflet-bar a:hover {
+            background-color: #2b2c35 !important;
+        }
+
+        /* Custom Leaflet Popups */
+        .leaflet-popup-content-wrapper {
+            background-color: #1e1f26 !important;
+            color: #ffffff !important;
+            border-radius: 12px !important;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 4px;
+        }
+        
+        .leaflet-popup-tip {
+            background-color: #1e1f26 !important;
+        }
+        
+        .popup-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin: 0 0 4px 0;
+            color: #ffffff;
+        }
+        
+        .popup-desc {
+            font-size: 12px;
+            color: #c7c6ca;
+            margin: 0 0 10px 0;
+        }
+        
+        .popup-btn {
+            background-color: #3f51b5;
+            color: white !important;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        
+        .popup-btn:hover {
+            background-color: #5c6bc0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="filter-container">
+        <div class="filter-chip active" onclick="filterCategory('All')">⚖️ All</div>
+        <div class="filter-chip" onclick="filterCategory('Police')">🚨 Police</div>
+        <div class="filter-chip" onclick="filterCategory('Hospital')">🏥 Hospitals</div>
+        <div class="filter-chip" onclick="filterCategory('Legal Aid')">🛡️ Legal Aid</div>
+        <div class="filter-chip" onclick="filterCategory('Incidents')">⚠️ Incidents</div>
+        <div class="filter-chip" id="layerToggleChip" onclick="toggleMapLayer()">🛰️ Satellite</div>
+    </div>
+
+    <div id="map"></div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search police station, hospital or city..." onkeydown="if(event.key === 'Enter') performSearch()" />
+        <button class="search-button" onclick="performSearch()">🔍</button>
+    </div>
+
+    <div class="route-info-panel" id="routePanel">
+        <div class="route-header">
+            <h4 class="route-title" id="routeDestinationName">Route to Emergency Clinic</h4>
+            <button class="close-route" onclick="clearRoute()">×</button>
+        </div>
+        <div class="route-details">
+            <div class="route-metric">
+                <span class="route-val" id="routeDistance">-- km</span>
+                <span class="route-lbl">Distance</span>
+            </div>
+            <div class="route-metric">
+                <span class="route-val" id="routeDuration">-- mins</span>
+                <span class="route-lbl">Travel Time</span>
+            </div>
+            <div class="route-metric">
+                <span class="route-val" style="color: #4caf50;" id="routeTraffic">Normal</span>
+                <span class="route-lbl">Live Traffic</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <script>
+        // Default Center coordinates (New Delhi)
+        var userLat = 28.6139;
+        var userLng = 77.2090;
+        var map;
+        var userMarker;
+        var markersGroup;
+        var currentFilter = 'All';
+        var activeRoutePolyline = null;
+        
+        // Map layers
+        var darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 20 });
+        var satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 });
+        var isSatellite = false;
+
+        // Complaint reports data
+        var complaintReports = [];
+        
+        function toggleMapLayer() {
+            if (isSatellite) {
+                map.removeLayer(satelliteLayer);
+                darkLayer.addTo(map);
+                isSatellite = false;
+                document.getElementById('layerToggleChip').classList.remove('active');
+            } else {
+                map.removeLayer(darkLayer);
+                satelliteLayer.addTo(map);
+                isSatellite = true;
+                document.getElementById('layerToggleChip').classList.add('active');
+            }
+        }
+
+        function loadComplaintMarkers(reportsJson) {
+            try {
+                complaintReports = JSON.parse(reportsJson);
+                rebuildMarkers();
+            } catch(e) {
+                console.log("Error parsing complaint markers: " + e);
+            }
+        }
+        
+        // Sample baseline positions relative to New Delhi, will scale/re-locate to user location once received
+        var emergencyServices = [];
+
+        // Initialize the Leaflet map
+        function initMap() {
+            map = L.map('map', {
+                zoomControl: false,
+                attributionControl: false
+            }).setView([userLat, userLng], 13);
+            
+            // Add custom beautiful dark mode cartography tiles
+            darkLayer.addTo(map);
+
+            L.control.zoom({
+                position: 'bottomright'
+            }).addTo(map);
+
+            markersGroup = L.layerGroup().addTo(map);
+            
+            // Generate mock services around user coordinates
+            generateEmergencyServices(userLat, userLng);
+            
+            // Create user location marker
+            drawUserMarker(userLat, userLng);
+            
+            // Attempt HTML5 Geolocation immediately as secondary fallback
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    updateUserLocation(position.coords.latitude, position.coords.longitude);
+                }, function(err) {
+                    console.log("HTML5 Geolocation declined/failed, relying on Android Native updates.");
+                });
+            }
+        }
+
+        // Draw or update the user's marker
+        function drawUserMarker(lat, lng) {
+            var purplePin = '<div class="marker-pin" style="background-color: #9c27b0;"></div><div class="marker-icon">📍</div>';
+            var userIcon = L.divIcon({
+                className: 'custom-div-icon',
+                html: purplePin,
+                iconSize: [32, 32],
+                iconAnchor: [16, 32]
+            });
+
+            if (userMarker) {
+                userMarker.setLatLng([lat, lng]);
+            } else {
+                userMarker = L.marker([lat, lng], { icon: userIcon }).addTo(map);
+                userMarker.bindPopup('<div style="font-weight:bold; color: #9c27b0;">My Location</div><div style="font-size:11px;">Live GPS Tracking Active</div>');
+            }
+        }
+
+        // Distance helper
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            var R = 6371; // km
+            var dLat = (lat2-lat1) * Math.PI / 180;
+            var dLon = (lon2-lon1) * Math.PI / 180;
+            var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return parseFloat((R * c).toFixed(1));
+        }
+
+        // Generate realistic emergency/safety coordinates near the user
+        function generateEmergencyServices(lat, lng) {
+            var services = [
+              {
+                id: 1,
+                name: "District Legal Services Authority (DLSA)",
+                category: "Legal Aid",
+                lat: lat + 0.008,
+                lng: lng + 0.012,
+                address: "District Court Complex, Block A, Ground Floor",
+                phone: "1800-111-915",
+                icon: "🛡️",
+                color: "#4caf50",
+                rating: 4.6,
+                details: "Free Legal Counselling & Pro Bono Helpline"
+              },
+              {
+                id: 2,
+                name: "Central Police Station & Dispatch Headquarters",
+                category: "Police",
+                lat: lat - 0.006,
+                lng: lng - 0.008,
+                address: "Police Station Marg, Main Junction",
+                phone: "112",
+                icon: "🚨",
+                color: "#f44336",
+                rating: 4.2,
+                details: "24/7 Emergency PCR & Women's Protection Cell"
+              },
+              {
+                id: 3,
+                name: "Government General Hospital & Trauma Centre",
+                category: "Hospital",
+                lat: lat + 0.011,
+                lng: lng - 0.005,
+                address: "Hospital Road, Sector 4, Emergency Entrance",
+                phone: "102",
+                icon: "🏥",
+                color: "#2196f3",
+                rating: 4.5,
+                details: "24/7 Trauma Care, Ambulance & ICU Active"
+              },
+              {
+                id: 4,
+                name: "City Emergency & Trauma Care Clinic",
+                category: "Hospital",
+                lat: lat - 0.009,
+                lng: lng + 0.007,
+                address: "Ring Road, opposite Central Park",
+                phone: "011-4567891",
+                icon: "🏥",
+                color: "#2196f3",
+                rating: 4.4,
+                details: "24-Hour Urgent Care & Ambulance Services"
+              },
+              {
+                id: 5,
+                name: "Women Legal Aid & Protection Helpline Centre",
+                category: "Legal Aid",
+                lat: lat - 0.002,
+                lng: lng + 0.014,
+                address: "Nari Shakti Kendra, Kasturba Gandhi Marg",
+                phone: "1091",
+                icon: "🛡️",
+                color: "#4caf50",
+                rating: 4.8,
+                details: "Women's Safety, Legal Help & Protection Desk"
+              },
+              {
+                id: 6,
+                name: "Cyber Crime Emergency Investigation Lab",
+                category: "Police",
+                lat: lat + 0.004,
+                lng: lng - 0.013,
+                address: "Cyber Cell, Connaught Place Main Marg",
+                phone: "1930",
+                icon: "🚨",
+                color: "#f44336",
+                rating: 4.3,
+                details: "Financial Fraud & Cyber Harassment Unit"
+              }
+            ];
+
+            // Compute distance from user's current GPS location
+            services.forEach(function(s) {
+                s.distance = calculateDistance(lat, lng, s.lat, s.lng);
+            });
+
+            emergencyServices = services;
+            
+            rebuildMarkers();
+
+            // Callback to Native Android App via Javascript Interface
+            if (window.NyayaNative && window.NyayaNative.onServicesUpdated) {
+                window.NyayaNative.onServicesUpdated(JSON.stringify(emergencyServices));
+            }
+        }
+
+        // Render legal clinics, courts, police stations, etc. onto the map based on filter
+        function rebuildMarkers() {
+            markersGroup.clearLayers();
+            
+            emergencyServices.forEach(function(service) {
+                if (currentFilter !== 'All') {
+                    if (service.category !== currentFilter) return;
+                }
+                
+                var customPin = '<div class="marker-pin" style="background-color: ' + service.color + ';"></div><div class="marker-icon">' + service.icon + '</div>';
+                var mIcon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: customPin,
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32]
+                });
+                
+                var popupHtml = `
+                    <div style="min-width: 180px;">
+                        <div class="popup-title">${service.name}</div>
+                        <div style="font-size:11px; color:#a1a1a5; margin-bottom: 2px;"><b>Category:</b> ${service.category}</div>
+                        <div class="popup-desc">${service.address}</div>
+                        <div style="font-size:11px; margin-bottom: 8px;">📞 <b>Phone:</b> <a href="tel:${service.phone}" style="color:#5c6bc0; font-weight:bold;">${service.phone}</a></div>
+                        <button class="popup-btn" onclick="getRouteTo(${service.lat}, ${service.lng}, '${service.name.replace(/'/g, "\\'")}')">🗺️ Get Route & Directions</button>
+                    </div>
+                `;
+                
+                L.marker([service.lat, service.lng], { icon: mIcon })
+                    .bindPopup(popupHtml)
+                    .addTo(markersGroup);
+            });
+
+            // Draw complaint markers
+            complaintReports.forEach(function(report) {
+                if (currentFilter !== 'All' && currentFilter !== 'Incidents') {
+                    return; // only show on 'All' or dedicated 'Incidents' filter
+                }
+                
+                // Color based on status
+                var markerColor = '#f44336'; // Red for pending/alert
+                if (report.status === 'Resolved') {
+                    markerColor = '#4caf50'; // Green
+                } else if (report.status === 'In Investigation') {
+                    markerColor = '#ff9800'; // Orange
+                }
+                
+                var pinIcon = '⚠️';
+                if (report.category === 'SOS Alert') pinIcon = '🚨';
+                else if (report.category === 'Cybercrime') pinIcon = '💻';
+                else if (report.category === 'Traffic') pinIcon = '🚗';
+                else if (report.category === 'Harassment') pinIcon = '🛡️';
+
+                var customPin = '<div class="marker-pin" style="background-color: ' + markerColor + ';"></div><div class="marker-icon">' + pinIcon + '</div>';
+                var mIcon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: customPin,
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32]
+                });
+                
+                var dateStr = new Date(report.timestamp).toLocaleString();
+                var popupHtml = `
+                    <div style="min-width: 200px; font-family: sans-serif;">
+                        <div class="popup-title" style="color: #ffffff; background-color: ${markerColor}; padding: 4px 8px; border-radius: 4px; font-weight: bold; margin-bottom: 6px;">[${report.id}] ${report.title}</div>
+                        <div style="font-size: 11px; color: #a1a1a5; margin-bottom: 4px;"><b>Status:</b> <span style="color: ${markerColor}; font-weight: bold;">${report.status}</span></div>
+                        <div style="font-size: 11px; color: #a1a1a5; margin-bottom: 4px;"><b>Date & Time:</b> ${dateStr}</div>
+                        <div style="font-size: 11px; color: #a1a1a5; margin-bottom: 6px;"><b>Citizen Name:</b> ${report.reporterName || 'Anonymous'}</div>
+                        <div class="popup-desc" style="max-height: 80px; overflow-y: auto; margin-bottom: 8px; border-left: 2px solid ${markerColor}; padding-left: 6px; color: #ffffff;">${report.desc}</div>
+                        <button class="popup-btn" style="background-color: #3f51b5; margin-bottom: 6px;" onclick="window.NyayaNative.openGoogleMapsNav(${report.lat}, ${report.lng})">🗺️ Open in Google Maps</button>
+                        <button class="popup-btn" style="background-color: #2e7d32;" onclick="getRouteTo(${report.lat}, ${report.lng}, '${report.title.replace(/'/g, "\\'")}')">🚗 Navigate Here (In-App)</button>
+                    </div>
+                `;
+                
+                L.marker([report.lat, report.lng], { icon: mIcon })
+                    .bindPopup(popupHtml)
+                    .addTo(markersGroup);
+            });
+        }
+
+        // Native injection target to update user's location dynamically
+        function updateUserLocation(lat, lng) {
+            userLat = lat;
+            userLng = lng;
+            drawUserMarker(lat, lng);
+            
+            // Re-generate emergency services around the new coordinates
+            generateEmergencyServices(lat, lng);
+            
+            // Optionally, center the map if user moves significantly
+            map.panTo([lat, lng]);
+            
+            // Call Kotlin Bridge to log success
+            if (window.NyayaNative) {
+                window.NyayaNative.onLocationUpdated(lat, lng);
+            }
+        }
+
+        // Filter categories: Police, Legal Aid, Courts, Labour Offices
+        function filterCategory(category) {
+            currentFilter = category;
+            
+            // Update chip UI active classes
+            var chips = document.querySelectorAll('.filter-chip');
+            chips.forEach(function(chip) {
+                if (chip.innerText.indexOf(category) !== -1 || (category === 'All' && chip.innerText.indexOf('All') !== -1)) {
+                    chip.classList.add('active');
+                } else {
+                    chip.classList.remove('active');
+                }
+            });
+            
+            rebuildMarkers();
+            
+            if (window.NyayaNative) {
+                window.NyayaNative.onFilterChanged(category);
+            }
+        }
+
+        // Custom Geocoding Search using Nominatim OpenStreetMap API
+        function performSearch() {
+            var query = document.getElementById('searchInput').value;
+            if (!query) return;
+            
+            fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(query))
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    if (data && data.length > 0) {
+                        var lat = parseFloat(data[0].lat);
+                        var lon = parseFloat(data[0].lon);
+                        
+                        // Set map view to the first search result
+                        map.setView([lat, lon], 14);
+                        
+                        // Update the coordinates as a simulated location or simply pan
+                        updateUserLocation(lat, lon);
+                        
+                        if (window.NyayaNative) {
+                            window.NyayaNative.onSearchSuccess(query, lat, lon);
+                        }
+                    } else {
+                        alert("Address or location not found. Try searching major landmarks, cities, or police stations.");
+                    }
+                })
+                .catch(function(err) {
+                    console.log("Search geocode failed: ", err);
+                });
+        }
+
+        // Calculate and draw routes to a target location using the Open Source Routing Machine (OSRM)
+        function getRouteTo(destLat, destLng, destName) {
+            if (activeRoutePolyline) {
+                map.removeLayer(activeRoutePolyline);
+            }
+            
+            // Close popup
+            map.closePopup();
+            
+            // Fetch OSRM route geometry
+            var url = 'https://router.project-osrm.org/route/v1/driving/' + userLng + ',' + userLat + ';' + destLng + ',' + destLat + '?overview=full&geometries=geojson';
+            
+            fetch(url)
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    if (data && data.routes && data.routes.length > 0) {
+                        var route = data.routes[0];
+                        var distanceKm = (route.distance / 1000).toFixed(1);
+                        var durationMins = Math.round(route.duration / 60);
+                        
+                        // Extract coordinate array for drawing polyline
+                        var coordinates = route.geometry.coordinates.map(function(coord) {
+                            return [coord[1], coord[0]]; // OSRM is [lng, lat], Leaflet wants [lat, lng]
+                        });
+                        
+                        activeRoutePolyline = L.polyline(coordinates, {
+                            color: '#3f51b5',
+                            weight: 6,
+                            opacity: 0.85,
+                            lineJoin: 'round'
+                        }).addTo(map);
+                        
+                        // Zoom/Pan map to fit entire route safely
+                        map.fitBounds(activeRoutePolyline.getBounds(), { padding: [50, 50] });
+                        
+                        // Display the Routing Info Panel at the bottom
+                        document.getElementById('routeDestinationName').innerText = destName;
+                        document.getElementById('routeDistance').innerText = distanceKm + ' km';
+                        document.getElementById('routeDuration').innerText = durationMins + ' mins';
+                        document.getElementById('routePanel').style.display = 'block';
+                        
+                        // Trigger Kotlin callback
+                        if (window.NyayaNative) {
+                            window.NyayaNative.onRouteCalculated(destName, distanceKm, durationMins);
+                        }
+                    } else {
+                        // Draw a straight fallback line if routing service is down
+                        drawFallbackLine(destLat, destLng, destName);
+                    }
+                })
+                .catch(function(err) {
+                    console.log("OSRM routing service query failed, using direct line fallback:", err);
+                    drawFallbackLine(destLat, destLng, destName);
+                });
+        }
+
+        // Fallback drawing direct straight lines
+        function drawFallbackLine(destLat, destLng, destName) {
+            var coords = [
+                [userLat, userLng],
+                [destLat, destLng]
+            ];
+            activeRoutePolyline = L.polyline(coords, {
+                color: '#f44336',
+                weight: 5,
+                dashArray: '8, 8',
+                opacity: 0.8
+            }).addTo(map);
+            
+            map.fitBounds(activeRoutePolyline.getBounds(), { padding: [40, 40] });
+            
+            // Calculate flat distance
+            var R = 6371; // Earth radius in km
+            var dLat = (destLat-userLat) * Math.PI / 180;
+            var dLon = (destLng-userLng) * Math.PI / 180;
+            var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(userLat * Math.PI / 180) * Math.cos(destLat * Math.PI / 180) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            var d = (R * c).toFixed(1);
+            var durationEst = Math.round(d * 2.5); // Roughly 2.5 mins per km driving in traffic
+            
+            document.getElementById('routeDestinationName').innerText = destName + " (Direct Line)";
+            document.getElementById('routeDistance').innerText = d + ' km';
+            document.getElementById('routeDuration').innerText = durationEst + ' mins';
+            document.getElementById('routePanel').style.display = 'block';
+            
+            if (window.NyayaNative) {
+                window.NyayaNative.onRouteCalculated(destName, d, durationEst);
+            }
+        }
+
+        // Clear route
+        function clearRoute() {
+            if (activeRoutePolyline) {
+                map.removeLayer(activeRoutePolyline);
+                activeRoutePolyline = null;
+            }
+            document.getElementById('routePanel').style.display = 'none';
+        }
+
+        // Initialize when window loads
+        window.onload = function() {
+            initMap();
+        };
+    </script>
+</body>
+</html>
