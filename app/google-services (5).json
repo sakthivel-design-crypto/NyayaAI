@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "773861514367",
+    "project_id": "nyayaai-e2f86",
+    "storage_bucket": "nyayaai-e2f86.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773861514367:android:653afdc0950ef657ddb34a",
+        "android_client_info": {
+          "package_name": "com.aistudio.nyayaai.jpxvts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773861514367-fjl0t3fghcba07g0js23qo75gmtkh0oh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aistudio.nyayaai.jpxvts",
+            "certificate_hash": "5dd63363860013d6e414eaf536d5f6937840dd95"
+          }
+        },
+        {
+          "client_id": "773861514367-r3dagljactlr41n6erl0l0912lui8hep.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aistudio.nyayaai.jpxvts",
+            "certificate_hash": "1f08df34ff59b3b072f7c99520cfb7e8797c3e66"
+          }
+        },
+        {
+          "client_id": "773861514367-a7sclsapogem2ao09gn2shdobj6d5t1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBejhVUYNfzN4vbHO3SoAz9IHbVeCnNMYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773861514367-a7sclsapogem2ao09gn2shdobj6d5t1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

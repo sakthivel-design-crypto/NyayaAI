@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Balance Scale Base / Stand -->
+    <path
+        android:fillColor="#3F51B5"
+        android:pathData="M51,28 h6 v48 h-6 z" />
+        
+    <path
+        android:fillColor="#3F51B5"
+        android:pathData="M44,76 h20 v4 h-20 z" />
+
+    <path
+        android:fillColor="#3F51B5"
+        android:pathData="M48,72 h12 v4 h-12 z" />
+
+    <!-- Crossbeam -->
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M24,32 h60 v4 h-60 z" />
+        
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M52,24 h4 v8 h-4 z" />
+
+    <!-- Left Scale Pan and Strings -->
+    <path
+        android:strokeColor="#C5A059"
+        android:strokeWidth="1.5"
+        android:pathData="M28,34 L18,52 M28,34 L38,52" />
+        
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M16,52 h24 v3 a12,12 0 0,1 -24,0 z" />
+
+    <!-- Right Scale Pan and Strings -->
+    <path
+        android:strokeColor="#C5A059"
+        android:strokeWidth="1.5"
+        android:pathData="M80,34 L70,52 M80,34 L90,52" />
+        
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M70,52 h20 v3 h-20 z" />
+        
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M66,55 a14,14 0 0,0 28,0 z" />
+
+</vector>

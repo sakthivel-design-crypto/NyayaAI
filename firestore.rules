@@ -1,0 +1,152 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isRoleAdminOrRoot(r) {
+      return r != null && (
+        r == "root_admin" || r == "ROOT_ADMIN" || r == "Root Admin" ||
+        r == "rootAdmin" || r == "Root_Admin" || r == "root admin" ||
+        r == "RootAdmin" || r == "root-admin" ||
+        r == "super_admin" || r == "SUPER_ADMIN" || r == "Super Admin" ||
+        r == "admin" || r == "Admin" || r == "ADMIN" ||
+        r == "Administrator" || r == "administrator"
+      );
+    }
+
+    function isRootAdmin() {
+      return isAuthenticated() && (
+        (request.auth.token.email != null && (
+          request.auth.token.email == "sakthivel.s8317@gmail.com" ||
+          request.auth.token.email == "srisakthi1357@gmail.com"
+        )) ||
+        ('admin' in request.auth.token && request.auth.token.admin == true) ||
+        ('role' in request.auth.token && isRoleAdminOrRoot(request.auth.token.role))
+      );
+    }
+
+    function isAuthorizedAdmin() {
+      return isAuthenticated() && (
+        isRootAdmin() ||
+        (exists(/databases/$(database)/documents/admins/$(request.auth.uid)) &&
+         (!('isDisabled' in get(/databases/$(database)/documents/admins/$(request.auth.uid)).data) ||
+          get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.isDisabled != true)) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         ((('role' in get(/databases/$(database)/documents/users/$(request.auth.uid)).data) &&
+           isRoleAdminOrRoot(get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role)) ||
+          (('admin' in get(/databases/$(database)/documents/users/$(request.auth.uid)).data) &&
+           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin == true) ||
+          (('isAdmin' in get(/databases/$(database)/documents/users/$(request.auth.uid)).data) &&
+           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true)) &&
+         (!('isDisabled' in get(/databases/$(database)/documents/users/$(request.auth.uid)).data) ||
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isDisabled != true)) ||
+        (request.auth.token.email != null &&
+         exists(/databases/$(database)/documents/users/$(request.auth.token.email)) &&
+         ((('role' in get(/databases/$(database)/documents/users/$(request.auth.token.email)).data) &&
+           isRoleAdminOrRoot(get(/databases/$(database)/documents/users/$(request.auth.token.email)).data.role)) ||
+          (('admin' in get(/databases/$(database)/documents/users/$(request.auth.token.email)).data) &&
+           get(/databases/$(database)/documents/users/$(request.auth.token.email)).data.admin == true) ||
+          (('isAdmin' in get(/databases/$(database)/documents/users/$(request.auth.token.email)).data) &&
+           get(/databases/$(database)/documents/users/$(request.auth.token.email)).data.isAdmin == true)) &&
+         (!('isDisabled' in get(/databases/$(database)/documents/users/$(request.auth.token.email)).data) ||
+          get(/databases/$(database)/documents/users/$(request.auth.token.email)).data.isDisabled != true)) ||
+        (request.auth.token.email != null &&
+         exists(/databases/$(database)/documents/admins/$(request.auth.token.email)) &&
+         (!('isDisabled' in get(/databases/$(database)/documents/admins/$(request.auth.token.email)).data) ||
+          get(/databases/$(database)/documents/admins/$(request.auth.token.email)).data.isDisabled != true))
+      );
+    }
+
+    // Internal auth collections - NEVER accessible to standard client apps (Admin SDK only)
+    match /_auth_password_resets/{document} {
+      allow read, write: if false;
+    }
+    match /_auth_reset_tokens/{document} {
+      allow read, write: if false;
+    }
+
+    // Complaints collection
+    match /complaints/{complaintId} {
+      function isComplaintOwner() {
+        return isAuthenticated() && (
+          request.auth.uid == resource.data.citizenUid ||
+          request.auth.uid == resource.data.citizenId ||
+          request.auth.uid == resource.data.uid
+        );
+      }
+
+      function isComplaintOwnerForCreate() {
+        return isAuthenticated() && (
+          request.resource.data.citizenUid == request.auth.uid ||
+          request.resource.data.citizenId == request.auth.uid ||
+          request.resource.data.uid == request.auth.uid
+        );
+      }
+
+      allow create: if isComplaintOwnerForCreate();
+      allow read: if isAuthenticated() && (
+        request.auth.uid == resource.data.citizenUid ||
+        request.auth.uid == resource.data.citizenId ||
+        request.auth.uid == resource.data.uid ||
+        isAuthorizedAdmin()
+      );
+      allow update: if isAuthenticated() && (
+        isAuthorizedAdmin() ||
+        request.auth.uid == resource.data.citizenUid ||
+        request.auth.uid == resource.data.citizenId ||
+        request.auth.uid == resource.data.uid
+      );
+      allow delete: if isAuthenticated() && (
+        isAuthorizedAdmin() ||
+        request.auth.uid == resource.data.citizenUid ||
+        request.auth.uid == resource.data.citizenId ||
+        request.auth.uid == resource.data.uid
+      );
+    }
+
+    // User accounts
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Admin records
+    match /admins/{adminId} {
+      allow read: if isAuthorizedAdmin();
+      allow write: if isAuthorizedAdmin();
+    }
+
+    // Citizen requests
+    match /citizen_requests/{requestId} {
+      allow read, write: if true;
+    }
+
+    // Notifications
+    match /notifications/{notificationId} {
+      allow read, write: if true;
+    }
+
+    // Forum posts
+    match /forum_posts/{postId} {
+      allow read, write: if true;
+    }
+
+    // Legal Dataset (Laws collection)
+    // Citizens and Authorities: Read-only access to published legal records
+    // Authorized Admins & Root Admins: Full permission to Create, Publish, Update, Edit, Delete
+    match /laws/{lawId} {
+      allow read: if true;
+      allow create, update, delete: if isAuthorizedAdmin();
+    }
+
+    // Ratings & Feedback
+    match /ratings/{ratingId} {
+      allow read, write: if true;
+    }
+    match /feedback/{feedbackId} {
+      allow read, write: if true;
+    }
+  }
+}

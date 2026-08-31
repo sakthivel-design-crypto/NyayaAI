@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">நியாயா AI</string>
+    <string name="app_subtitle">இந்திய குடிமக்கள் நீதி மற்றும் பாதுகாப்பு கட்டமைப்பு</string>
+    <string name="select_language">மொழியைத் தேர்வுசெய்</string>
+    <string name="citizen_portal">குடிமக்கள் போர்டல்</string>
+    <string name="authority_portal">அதிகாரிகள் போர்டல்</string>
+    <string name="admin_portal">நிர்வாகி போர்டல்</string>
+    <string name="nav_assistant">AI உதவியாளர்</string>
+    <string name="nav_map">பாதுகாப்பு வரைபடம்</string>
+    <string name="nav_complaints">புகார்கள்</string>
+    <string name="nav_laws">சட்டங்கள்</string>
+    <string name="nav_forum">மன்றம்</string>
+    <string name="nav_profile">சுயவிவரம்</string>
+    <string name="nav_inquiries">விசாரணைகள்</string>
+    <string name="nav_feedback">கருத்துகள்</string>
+    <string name="nav_overview">மேலோட்டம்</string>
+    <string name="nav_users">பயனர்கள்</string>
+    <string name="nav_dataset">தரவுத்தொகுப்பு</string>
+    <string name="nav_ai_logs">AI பதிவுகள்</string>
+    <string name="my_complaints">எனது புகார்கள்</string>
+    <string name="submit_new_complaint">புதிய புகார் அளிக்கவும்</string>
+    <string name="complaint_title">புகார் தலைப்பு</string>
+    <string name="complaint_category">புகார் வகை</string>
+    <string name="complaint_description">புகார் விளக்கம்</string>
+    <string name="state">மாநிலம்</string>
+    <string name="district">மாவட்டம்</string>
+    <string name="address">முகவரி / இருப்பிடம்</string>
+    <string name="submit_button">புகாரைச் சமர்ப்பி</string>
+    <string name="update_button">புகாரைப் புதுப்பி</string>
+    <string name="edit_button">திருத்து</string>
+    <string name="delete_button">நீக்கு</string>
+    <string name="cancel_button">ரத்து செய்</string>
+    <string name="save_button">சேமி</string>
+    <string name="back_button">பின்னால்</string>
+</resources>

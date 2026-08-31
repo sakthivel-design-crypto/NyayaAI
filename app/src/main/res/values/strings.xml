@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">NyayaAI</string>
+    <string name="app_subtitle">Indian Citizen Justice &amp; Safety Ecosystem</string>
+    <string name="select_language">Select Language</string>
+    <string name="citizen_portal">Citizen Portal</string>
+    <string name="authority_portal">Authority Portal</string>
+    <string name="admin_portal">Admin Node Portal</string>
+    <string name="nav_assistant">AI Assistant</string>
+    <string name="nav_map">Safety Map</string>
+    <string name="nav_complaints">Complaints</string>
+    <string name="nav_laws">Browse Laws</string>
+    <string name="nav_forum">Forum</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_inquiries">Inquiries</string>
+    <string name="nav_feedback">Feedback</string>
+    <string name="nav_overview">Overview</string>
+    <string name="nav_users">Users</string>
+    <string name="nav_dataset">Dataset</string>
+    <string name="nav_ai_logs">AI Logs</string>
+    <string name="my_complaints">My Filed Complaints</string>
+    <string name="submit_new_complaint">Submit New Complaint</string>
+    <string name="complaint_title">Complaint Title</string>
+    <string name="complaint_category">Complaint Category</string>
+    <string name="complaint_description">Complaint Description</string>
+    <string name="state">State</string>
+    <string name="district">District</string>
+    <string name="address">Address / Location</string>
+    <string name="submit_button">Submit Complaint</string>
+    <string name="update_button">Update Complaint</string>
+    <string name="edit_button">Edit</string>
+    <string name="delete_button">Delete</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="save_button">Save</string>
+    <string name="back_button">Back</string>
+</resources>
